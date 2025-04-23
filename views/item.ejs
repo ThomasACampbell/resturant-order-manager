@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/common/head.ejs') %>
+    <style>
+      .product-detail-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <%- include('./partials/common/header.ejs') %>
+
+    <div class="container product-detail-container">
+      <div class="row align-items-center">
+        <!-- Product Image -->
+        <div class="col-md-6 mb-4 mb-md-0">
+          <img
+            src="<%= item.imageUrl %>"
+            class="img-fluid rounded shadow"
+            alt="<%= item.name %>"
+          />
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-6">
+          <div class="card border-0">
+            <div class="card-body">
+              <h2 class="card-title"><%= item.name %></h2>
+              <h4 class="text-success mb-3"><%=item.price%> Fizzles</h4>
+              <p class="card-text fs-5"><%= item.description %></p>
+
+              <%-include('./partials/items/addItemToBasket.ejs', { item }) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

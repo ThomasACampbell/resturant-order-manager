@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/common/head.ejs') %>
+  </head>
+  <body>
+    <%- include('./partials/common/header.ejs') %>
+
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          Order #<%= order.id %> - Status: <%= order.status.name %>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">
+            Customer: <%= order.user.firstName %> <%= order.user.lastName %>
+            (<%= order.user.role.name %>)
+          </h5>
+          <p class="card-text">Email: <%= order.user.email %></p>
+
+          <hr />
+          <h6>Items:</h6>
+          <div class="row">
+            <% order.order_items.forEach(function(oi) { %>
+            <div class="col-md-4 mb-3">
+              <div class="card h-100">
+                <img
+                  src="<%= oi.item.imageUrl %>"
+                  class="card-img-top"
+                  alt="<%= oi.item.name %>"
+                />
+                <div class="card-body">
+                  <h5 class="card-title"><%= oi.item.name %></h5>
+                  <p class="card-text"><%= oi.item.description %></p>
+                  <p class="card-text">
+                    <strong>Category:</strong>
+                    <%= oi.item.category.name %>
+                  </p>
+                  <p class="card-text">
+                    <strong>Price:</strong> $<%= oi.item.price %>
+                  </p>
+                  <p class="card-text">
+                    <strong>Quantity:</strong>
+                    <%= oi.quantity %>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

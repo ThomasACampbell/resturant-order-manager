@@ -1,0 +1,17 @@
+
+.scrolling-wrapper {
+  animation: scroll-left 60s linear infinite;
+}
+
+@keyframes scroll-left {
+  from {
+    transform: translateX(50%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.scrolling-wrapper:hover {
+  animation-play-state: paused;
+}

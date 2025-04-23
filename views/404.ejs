@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/common/head.ejs') %>
+  </head>
+  <body>
+    <%- include('./partials/common/header.ejs') %>
+    <div class="container">
+      <h1 class="h1">
+        Oops! The page "<%= pathWord %>" you're looking for cannot be found.
+      </h1>
+      <p>The requested page does not exist or has been moved.</p>
+      <a href="/">Go to Homepage</a>
+    </div>
+    <%- include('./partials/common/footer.ejs') %>
+  </body>
+</html>

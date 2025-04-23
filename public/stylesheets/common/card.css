@@ -1,0 +1,22 @@
+.card:hover {
+  transform: scale(1.05);
+  transition: 0.5s ease;
+  z-index: 3; /* Ensures it's above other .toast-late elements */
+  box-shadow: 0 4px 10px;
+}
+
+.card-img-wrapper {
+  overflow: hidden;
+  height: 200px; /* adjust as needed */
+}
+
+.card-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .card-img-wrapper img {
+  transform: scale(1.1);
+}

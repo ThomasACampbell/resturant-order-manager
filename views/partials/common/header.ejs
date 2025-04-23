@@ -1,0 +1,81 @@
+<header class="sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+    <div class="container-fluid">
+      <a class="navbar-brand ms-2" href="/">
+        <i class="fa-solid fa-utensils me-1"></i>Resto Manager (Fake resturant, you won't get any food here)
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+          <li class="nav-item me-2">
+            <a class="nav-link <%= currentPath === '/' ? 'active' : '' %>" href="/">
+              <i class="fa-solid fa-house me-1"></i>Home
+            </a>
+          </li>
+
+          <li class="nav-item me-2">
+            <a class="nav-link <%= currentPath === '/menu' ? 'active' : '' %>" href="/menu">
+              <i class="fa-solid fa-bars me-1"></i>Menu
+            </a>
+          </li>
+
+          <li class="nav-item me-2">
+            <a class="nav-link <%= currentPath === '/orders' ? 'active' : '' %>" href="/orders">
+              <i class="fa-solid fa-receipt me-1"></i>Orders
+            </a>
+          </li>
+
+          <li class="nav-item me-2">
+            <a class="nav-link <%= currentPath === '/basket' ? 'active' : '' %>" href="/basket">
+              <i class="fa-solid fa-basket-shopping me-1"></i>Basket
+            </a>
+          </li>
+
+          <li class="nav-item me-2 d-flex align-items-center">
+            <% if (user) { %>
+
+              <li class="nav-item dropdown me-2">
+                <a
+                  class="nav-link dropdown-toggle text-white"
+                  href="#"
+                  id="userDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Hi, <%= user.firstName %>!
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                  <li>
+                    <a class="dropdown-item" href="/users/favorites">
+                      <i class="fa-solid fa-star me-1"></i>Favorites
+                    </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <form action="/logout" method="POST" class="px-3">
+                      <button type="submit" class="btn btn-link dropdown-item text-danger">
+                        <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
+                      </button>
+                    </form>
+                  </li>
+                </ul>
+              </li>
+              
+
+              
+            <% } else { %>
+              <a class="nav-link <%= currentPath === '/login' ? 'active' : '' %>" href="/login">
+                <i class="fa-solid fa-right-to-bracket me-1"></i>Login
+              </a>
+            <% } %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

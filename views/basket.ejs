@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/common/head.ejs') %>
+    <script src="./javascripts/favorite.js"></script>
+  </head>
+  <body>
+    <%- include('./partials/common/header.ejs') %>
+
+    <div class="container mt-5">
+      <h2>Your Fake-Basket</h2>
+
+      <% if (basket.length === 0) { %>
+      <div class="alert alert-info mt-4">
+        Your fake-basket is currently empty. Why not check out some of our
+        *fake* best sellers?
+      </div>
+
+      <%- include('./partials/bestSellersBanner.ejs') %>
+
+      <% } else { %>
+      <table class="table table-striped mt-4">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% basket.forEach(item => { %>
+          <tr>
+            <td><%= item.name %></td>
+            <td><%= item.quantity %></td>
+            <td>
+              <%=item.price%>
+              Fizzles
+            </td>
+            <td>
+              <%= item.total%>
+              Fizzles
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+      <form action="/basket/checkout" method="POST" class="mt-4">
+        <button class="btn btn-success">
+          Place Fake-Order (You won't be charged)
+        </button>
+      </form>
+      <% } %>
+    </div>
+  </body>
+
+  <link rel="stylesheet" href="./stylesheets/common/bestsellers.css" />
+  <link rel="stylesheet" href="../stylesheets/common/card.css" />
+</html>

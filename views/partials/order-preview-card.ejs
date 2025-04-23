@@ -1,0 +1,120 @@
+<%
+  const currentIndex = statuses.findIndex(s => s.name === order.status.name);
+  const minIndex = statuses.findIndex(s => s.name === 'pending');
+  const maxIndex = statuses.findIndex(s => s.name === 'completed');
+  const isCompletedOrCanceled = ['completed', 'canceled'].includes(order.status.name);
+  const nextStatusName = currentIndex < maxIndex ? statuses[currentIndex + 1].name : null;
+
+  // Find the most expensive item from order.order_items
+  let mostExpensiveItem = null;
+  if (order.order_items && order.order_items.length > 0) {
+    mostExpensiveItem = order.order_items.reduce((prev, current) => {
+      const prevPrice = prev.item?.price ?? 0;
+      const currPrice = current.item?.price ?? 0;
+      return currPrice > prevPrice ? current : prev;
+    }).item;
+  }
+
+  // Progress percentage
+  let progressPercent = 5;
+  if (order.status.name === 'canceled' || order.status.name === 'pending') {
+    progressPercent = 5;
+  } else if (order.status.name === 'completed') {
+    progressPercent = 100;
+  } else {
+    const range = maxIndex - minIndex;
+    const relativeProgress = currentIndex - minIndex;
+    progressPercent = Math.round((relativeProgress / range) * 100);
+  }
+
+  // Determine bar color
+  let progressClass = 'bg-info';
+  if (order.status.name === 'completed') {
+    progressClass = 'bg-success';
+  } else if (order.status.name === 'canceled') {
+    progressClass = 'bg-danger';
+  }
+%>
+
+<div class="col-md-6 col-lg-4 mb-4">
+  <div class="card text-white position-relative">
+    <% if (mostExpensiveItem?.imageUrl) { %>
+      <!-- Background image with fading effect applied here dynamically -->
+      <div class="half-bg" style="background-image: linear-gradient(to right, rgba(255, 255, 255, 1.9), rgba(255, 255, 255, 0)), url('<%= mostExpensiveItem?.imageUrl %>');"></div>
+    <% } else { %>
+      <div class="half-bg bg-white d-flex align-items-center justify-content-center">
+        <small class="text-white">No image</small>
+      </div>
+    <% } %>
+    <div class="card-header bg-info-subtle text-dark z-2">
+      Order #<%= order.id %> -
+      <strong class="<%= order.status.name == 'completed' ? 'text-success' : 'text-dark' %> text-uppercase">
+        <%= order.status.name %>
+      </strong> since <%= toShortDate(order.updatedAt) %>
+      <div>
+        <button
+          type="button"
+          class="btn btn-primary btn-sm step-status-btn"
+          data-order-id="<%= order.id %>"
+          data-status-step="-1"
+          <%= currentIndex <= minIndex || isCompletedOrCanceled ? 'disabled' : '' %>>
+          <i class="fa-regular fa-square-caret-left"></i>
+        </button>
+        <button
+          type="button"
+          class="btn <%= nextStatusName === 'completed' ? 'btn-success' : 'btn-primary' %> btn-sm step-status-btn"
+          data-order-id="<%= order.id %>"
+          data-status-step="1"
+          <%= currentIndex >= maxIndex || isCompletedOrCanceled ? 'disabled' : '' %>>
+          <i class="fa-regular fa-square-caret-right"></i>
+          Escalate <%= nextStatusName ? 'to ' + nextStatusName.charAt(0).toUpperCase() + nextStatusName.slice(1) : '' %>
+        </button>
+      </div>
+      <div class="progress mt-2" style="height: 10px;">
+        <div
+          class="progress-bar-striped <%= progressClass %>"
+          role="progressbar"
+          style="width: <%= progressPercent %>%"
+          aria-valuenow="<%= progressPercent %>"
+          aria-valuemin="0"
+          aria-valuemax="100">
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body text-dark">
+      <h5 class="card-title">
+        <span class="text-capitalize"><%= order.user.role.name %>:</span>
+        <span class="text-uppercase"><%= order.user.firstName %> <%= order.user.lastName %></span>
+      </h5>
+      <p class="card-text">
+        <strong>Email:</strong> <%= order.user.email %><br />
+        <strong>Total:</strong> <%= order.order_items.reduce((total, item) => total + (item.item.price * item.quantity), 0).toFixed(2) %> Fizzles<br />
+        <strong>Items:</strong> <%= order.order_items.reduce((total, item) => total + item.quantity, 0) %><br />
+      </p>
+
+      <a href="/orders/<%= order.id %>" class="btn btn-primary btn-sm me-2">
+        <i class="fa-solid fa-maximize"></i> View Details
+      </a>
+
+      <% if (order.status.name === 'canceled') { %>
+        <button
+          type="button"
+          class="btn btn-info btn-sm open-btn"
+          data-order-id="<%= order.id %>"
+          data-status="pending">
+          <i class="fa-solid fa-burger"></i> Open Fake-Order
+        </button>
+      <% } else { %>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm cancel-btn"
+          data-order-id="<%= order.id %>"
+          data-status="canceled"
+          <%= order.status.name !== 'pending' ? 'disabled' : '' %>>
+          <i class="fa-solid fa-xmark"></i> Cancel
+        </button>
+      <% } %>
+    </div>
+  </div>
+</div>

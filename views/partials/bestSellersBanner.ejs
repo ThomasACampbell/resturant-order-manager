@@ -1,0 +1,31 @@
+<!-- Top Selling Items Banner -->
+<div class="bg-dark text-white py-2 overflow-hidden">
+  <div class="container-fluid position-relative">
+    <div class="d-flex align-items-center">
+      <strong class="me-3">Fake-Bestsellers:</strong>
+
+      <div class="scrolling-wrapper d-flex flex-nowrap">
+        <% topItems.forEach(item => { %>
+        <div class="card text-dark me-3" style="min-width: 200px">
+          <div class="card-img-wrapper">
+            <img
+              src="<%= item.item.imageUrl %>"
+              class="card-img-top"
+              style="object-fit: cover"
+              alt="<%= item.item.name %>"
+            />
+          </div>
+
+          <div class="card-body p-2">
+            <h6 class="card-title mb-1"><%= item.item.name %></h6>
+            <small class="text-muted"
+              >Sold:
+              <%= item.dataValues.totalSold %></small
+            >
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>

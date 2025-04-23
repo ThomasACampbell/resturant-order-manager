@@ -1,0 +1,28 @@
+<div class="col-md-4 mb-3">
+  <div class="card h-100">
+    <div class="card-img-wrapper">
+      <img
+        src="<%= item.item.imageUrl %>"
+        class="card-img-top"
+        alt="<%= item.item.name %>"
+      />
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"><%= item.item.name %></h5>
+      <p class="card-text"><%= item.item.description %></p>
+      <p class="card-text">
+        <strong>Category:</strong>
+        <%= item.item.category.name %>
+      </p>
+      <p class="card-text">
+        <strong>Price:</strong>
+        <%= item.item.price %>
+        Fizzles
+      </p>
+      <p class="card-text">
+        <strong>Quantity:</strong>
+        <%= item.quantity %>
+      </p>
+    </div>
+  </div>
+</div>

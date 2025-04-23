@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/common/head.ejs') %>
+    <script src="../javascripts/favorite.js"></script>
+  </head>
+  <body>
+    <%- include('./partials/common/header.ejs') %>
+    <div class="container mt-5">
+      <% if (isFallback) { %>
+      <div class="alert alert-info">
+        You don't have any favorites yet. Here are some popular picks from other users:
+      </div>
+      <% } %>
+      <div class="row" id="favoritesContainer">
+        <% favorites.forEach(function(favorite) { %> <%-
+        include('./partials/item-card.ejs', { item: favorite }) %> <% }) %>
+      </div>
+    </div>
+  </body>
+
+  <link rel="stylesheet" href="../stylesheets/common/card.css" />
+</html>

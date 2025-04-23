@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/common/head.ejs') %>
+  </head>
+
+  <body>
+    <%- include('./partials/common/header.ejs') %>
+    <%- include('./partials/common/messageViewer.ejs') %>
+    <%-include('./partials/common/basket-sidebar.ejs') %>
+
+    <div class="container mt-5">
+        <div class="bg-primary text-white">
+          Order #<%= order.id %> - Status: <%= (order.status.name).toUpperCase()
+          %> | Created: <%=toShortDate(order.createdAt) %> | Updated:
+          <%=toShortDate(order.updatedAt) %>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">
+            Customer: <%= order.user.firstName %> <%= order.user.lastName %>
+            (<%= order.user.role.name %> #<%=order.user.role.id%>)
+          </h5>
+          <p class="card-text">Email: <%= order.user.email %></p>
+
+          <hr />
+          <h6>Items:</h6>
+          <div class="row">
+            <% order.order_items.forEach(function(item) { %>
+            <%-include('./partials/order-item-details-card.ejs', { item: item })
+            %> <% }); %>
+          </div>
+        </div>
+    </div>
+  </body>
+
+  <link rel="stylesheet" href="../stylesheets/common/card.css" />
+</html>
