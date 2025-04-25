@@ -30,6 +30,7 @@ const seedDatabase = async () => {
 
     // Seed roles
     const roles = await db.roles.bulkCreate([
+      { name: 'guest' },
       { name: 'customer' },
       { name: 'staff' },
       { name: 'admin' },
@@ -48,6 +49,14 @@ const seedDatabase = async () => {
     const plainPassword = 'password123';
     const { salt, hashedPassword } = await hashPasswordAsync(plainPassword);
     const users = await db.users.bulkCreate([
+      {
+        firstName: 'Default',
+        lastName: 'Guest',
+        email: 'guest@vividrem.com',
+        encryptedPassword: hashedPassword,
+        salt,
+        roleId: roles.find((r) => r.name === 'guest').id,
+      },
       {
         firstName: 'Toshi',
         lastName: 'Augustus',

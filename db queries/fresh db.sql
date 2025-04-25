@@ -1,6 +1,9 @@
+-- Drop the database
+DROP DATABASE IF EXISTS defaultdb;
+
 -- Create the database
-CREATE DATABASE IF NOT EXISTS restaurantdb;
-USE restaurantdb;
+CREATE DATABASE IF NOT EXISTS defaultdb;
+USE defaultdb;
 
 -- ROLES table
 CREATE TABLE roles (
@@ -10,8 +13,6 @@ CREATE TABLE roles (
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Insert default roles
-INSERT INTO roles (name) VALUES ('customer'), ('staff'), ('admin');
 
 -- USERS table
 CREATE TABLE users (
@@ -26,6 +27,7 @@ CREATE TABLE users (
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (roleId) REFERENCES roles(id)
 );
+
 
 -- CATEGORIES table
 CREATE TABLE categories (

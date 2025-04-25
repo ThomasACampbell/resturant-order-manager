@@ -6,15 +6,18 @@
   data-bs-toggle="offcanvas"
   data-bs-target="#basketSidebar"
 >
-  🧺 View Fake-Basket
-  <span id="basket-count" class="badge bg-danger ms-1">0</span>
+  View Fake-Basket
+  <!-- Badge -->
+  <span id="basket-count" class="badge bg-danger ms-1"
+    ><%= basket.reduce((sum, item) => sum + item.quantity, 0) %></span
+  >
 </button>
 
 <!-- Basket Sidebar -->
 <div
+  id="basketSidebar"
   class="offcanvas offcanvas-end"
   tabindex="-1"
-  id="basketSidebar"
   aria-labelledby="basketSidebarLabel"
   data-bs-backdrop="false"
   data-bs-scroll="true"
@@ -28,19 +31,84 @@
     ></button>
   </div>
   <div class="offcanvas-body">
+    <!-- List -->
     <ul class="list-group" id="basket-items">
+      <% if (basket.length === 0) { %>
       <li class="list-group-item text-muted">Fake-Basket is empty</li>
+      <% } else { %>
+      <% basket.forEach(item => { %>
+      <li
+        id="basket-item-<%= item.id %>"
+        class="list-group-item p-0 d-flex align-items-center border-0 mb-2"
+        style="
+          height: 80px;
+          position: relative;
+          background: url(&quot;<%= item.imageUrl %>&quot;) center center /
+            cover no-repeat;
+          border-radius: 0.5rem;
+          overflow: hidden;
+          color: white;
+          backdrop-filter: blur(4px);
+          -webkit-backdrop-filter: blur(4px);
+        "
+      >
+        <div
+          style="
+            background: rgba(0, 0, 0, 0.65);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+          "
+        >
+          <div>
+            <div class="fw-bold"><%= item.name %></div>
+            <small>
+              Qty: <span class="item-quantity"><%= item.quantity %></span> •
+              <span class="item-total"><%= item.total %></span> Fizzles
+            </small>
+          </div>
+
+          <div class="d-flex align-items-center gap-1">
+            <!-- Plus and Minus Buttons -->
+            <button
+              class="btn btn-sm btn-secondary adjust-quantity"
+              data-action="decrease"
+              data-item-id="<%= item.id %>"
+            >
+              -
+            </button>
+            <button
+              class="btn btn-sm btn-secondary adjust-quantity"
+              data-action="increase"
+              data-item-id="<%= item.id %>"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </li>
+      <% }) %>
+      <% } %>
     </ul>
 
-    <div id="basket-total" class="text-end mt-3 fw-bold"></div>
+    <% if (basket.length > 0) { %>
+    <!-- Total -->
+    <div id="basket-total" class="text-end mt-3 fw-bold">
+      Total: <%= basket.reduce((acc, item) => acc + parseFloat(item.total),
+      0).toFixed(2) %> Fizzles
+    </div>
 
     <hr />
-    <div class="text-end">
-      <button class="btn btn-success mt-3 w-100" id="checkout-btn">
-        Place Fake-Order (You won't be charged)
+    <form action="/basket/checkout" method="POST">
+      <button class="btn btn-success mt-3 w-100">
+        Place Fake-Order – <%= basket.reduce((acc, item) => acc +
+        parseFloat(item.total), 0).toFixed(2) %> Fizzles
       </button>
-    </div>
+    </form>
+    <% } %>
   </div>
 </div>
-
-<script src="./javascripts/basket-sidebar.js"></script>

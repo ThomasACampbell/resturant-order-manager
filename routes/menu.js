@@ -7,14 +7,10 @@ var itemService = new ItemService(db)
 const UserService = require('../services/UserService')
 const userService = new UserService(db);
 
-var OrderService = require('../services/OrderService')
-var orderService = new OrderService(db)
-
 var CategoryService = require('../services/CategoryService')
 var categoryService = new CategoryService(db)
 var bodyParser = require('body-parser')
 var jsonParser = bodyParser.json()
-var jwt = require('jsonwebtoken')
 var jsend = require('jsend')
 
 
@@ -77,6 +73,7 @@ router.get('/', async (req, res) => {
       categories: enrichedCategories,
       topItems: topItems,
       basket: detailedBasket, // Pass the basket data to the view
+      user: req.user,
     });
   } catch (err) {
     console.error('ERROR: Failed to load menu', err);

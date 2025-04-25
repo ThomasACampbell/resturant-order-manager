@@ -73,10 +73,17 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="toast-body">${message}</div>
       </div>
     `;
+
+   
+
     toastContainer.insertAdjacentHTML('beforeend', toastHtml);
     const toastElement = document.getElementById(toastId);
     const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
     toast.show();
+    
+    toastElement.addEventListener("click", () => {
+      window.location.href = "/users/favorites";
+    });
     toastElement.addEventListener('hidden.bs.toast', () => toastElement.remove());
   }
 
